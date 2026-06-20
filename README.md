@@ -1,5 +1,9 @@
 # 🚀 AI Career Assistant
 
+## 🏗️ System Architecture
+
+![AI Career Assistant Architecture](assets/architecture.png)
+
 ### AI-Powered Career Development Platform
 
 Built with **FastAPI**, **PostgreSQL**, **Google Gemini AI**, and **Docker**
