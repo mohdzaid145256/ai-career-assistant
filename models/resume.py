@@ -11,8 +11,7 @@ from sqlalchemy.orm import (
     mapped_column
 )
 
-from database.base import Base
-
+from database.session import Base
 
 class Resume(Base):
     __tablename__ = "resumes"

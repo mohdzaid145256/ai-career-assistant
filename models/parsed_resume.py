@@ -8,8 +8,7 @@ from sqlalchemy import (
 
 from datetime import datetime
 
-from database.base import Base
-
+from database.session import Base
 
 class ParsedResume(Base):
     __tablename__ = "parsed_resumes"
