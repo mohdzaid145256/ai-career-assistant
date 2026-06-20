@@ -7,6 +7,9 @@ from api.v1.interview import router as interview_router
 from api.v1.interview_answer import (
     router as interview_answer_router
 )
+from api.v1.resume_review import (
+    router as resume_review_router
+)
 
 app = FastAPI(
     title="AI Career Assistant",
@@ -18,6 +21,7 @@ app.include_router(resume_router)
 app.include_router(ats_router)
 app.include_router(interview_router)
 app.include_router(interview_answer_router)
+app.include_router(resume_review_router)
 
 
 @app.get("/")
