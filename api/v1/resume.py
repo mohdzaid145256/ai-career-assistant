@@ -1,5 +1,6 @@
 import os
 import shutil
+from typing import List
 
 from fastapi import (
     APIRouter,
@@ -71,3 +72,82 @@ async def upload_resume(
     )
 
     return resume
+
+
+@router.get(
+    "/list",
+    response_model=List[ResumeResponse]
+)
+def list_resumes(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
+    return ResumeService.get_user_resumes(
+        db=db,
+        user_id=current_user.id
+    )
+
+
+@router.get(
+    "/{resume_id}",
+    response_model=ResumeResponse
+)
+def get_resume(
+    resume_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
+    resume = ResumeService.get_resume(
+        db=db,
+        resume_id=resume_id
+    )
+
+    if not resume:
+        raise HTTPException(
+            status_code=404,
+            detail="Resume not found"
+        )
+
+    if resume.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403,
+            detail="Access denied"
+        )
+
+    return resume
+
+
+@router.delete("/{resume_id}")
+def delete_resume(
+    resume_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
+    resume = ResumeService.get_resume(
+        db=db,
+        resume_id=resume_id
+    )
+
+    if not resume:
+        raise HTTPException(
+            status_code=404,
+            detail="Resume not found"
+        )
+
+    if resume.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403,
+            detail="Access denied"
+        )
+
+    if os.path.exists(resume.file_path):
+        os.remove(resume.file_path)
+
+    ResumeService.delete_resume(
+        db=db,
+        resume=resume
+    )
+
+    return {
+        "message": "Resume deleted successfully"
+    }

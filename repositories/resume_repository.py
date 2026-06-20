@@ -47,3 +47,11 @@ class ResumeRepository:
             .filter(Resume.id == resume_id)
             .first()
         )
+
+    @staticmethod
+    def delete(
+        db: Session,
+        resume: Resume
+    ):
+        db.delete(resume)
+        db.commit()

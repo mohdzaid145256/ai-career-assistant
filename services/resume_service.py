@@ -40,3 +40,13 @@ class ResumeService:
             db,
             resume_id
         )
+
+    @staticmethod
+    def delete_resume(
+        db: Session,
+        resume
+    ):
+        ResumeRepository.delete(
+            db,
+            resume
+        )
