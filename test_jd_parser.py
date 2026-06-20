@@ -3,12 +3,16 @@ from services.job_description_parser import (
 )
 
 job_description = """
-We are looking for a Backend Engineer
-with experience in Python, FastAPI,
-PostgreSQL, Docker, AWS, Git and Linux.
-
-Experience with Machine Learning
-and TensorFlow is preferred.
+Python
+FastAPI
+AWS
+Docker
+Kubernetes
+Redis
+Terraform
+LangChain
+OpenAI
+MLOps
 """
 
 skills = (

@@ -10,3 +10,4 @@ class ATSResponse(BaseModel):
     score: float
     matched_skills: list[str]
     missing_skills: list[str]
+    recommendations: list[str]

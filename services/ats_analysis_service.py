@@ -12,6 +12,10 @@ from services.ats_service import (
     ATSService
 )
 
+from services.recommendation_service import (
+    RecommendationService
+)
+
 
 class ATSAnalysisService:
 
@@ -36,7 +40,16 @@ class ATSAnalysisService:
             )
         )
 
-        return ATSService.calculate_score(
+        result = ATSService.calculate_score(
             resume_skills,
             required_skills
         )
+
+        result["recommendations"] = (
+            RecommendationService
+            .generate_recommendations(
+                result["missing_skills"]
+            )
+        )
+
+        return result
