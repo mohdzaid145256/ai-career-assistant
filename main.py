@@ -10,6 +10,9 @@ from api.v1.interview_answer import (
 from api.v1.resume_review import (
     router as resume_review_router
 )
+from api.v1.resume_match import (
+    router as resume_match_router
+)
 
 app = FastAPI(
     title="AI Career Assistant",
@@ -22,6 +25,7 @@ app.include_router(ats_router)
 app.include_router(interview_router)
 app.include_router(interview_answer_router)
 app.include_router(resume_review_router)
+app.include_router(resume_match_router)
 
 
 @app.get("/")
