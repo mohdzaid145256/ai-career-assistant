@@ -19,6 +19,22 @@ from database.dependencies import (
 from schemas.resume import ResumeResponse
 from services.resume_service import ResumeService
 
+from services.pdf_parser_service import (
+    PDFParserService
+)
+
+from services.parsed_resume_service import (
+    ParsedResumeService
+)
+
+from services.skill_extractor_service import (
+    SkillExtractorService
+)
+
+from services.skill_service import (
+    SkillService
+)
+
 router = APIRouter(
     prefix="/resume",
     tags=["Resume"]
@@ -70,6 +86,31 @@ async def upload_resume(
         file_path=file_path,
         file_size=file_size
     )
+
+    # Extract text from PDF
+    raw_text = PDFParserService.extract_text(
+        file_path
+    )
+
+    # Save parsed resume text
+    ParsedResumeService.create_parsed_resume(
+        db=db,
+        resume_id=resume.id,
+        raw_text=raw_text
+    )
+
+    # Extract skills
+    skills = SkillExtractorService.extract_skills(
+        raw_text
+    )
+
+    # Save skills
+    for skill in skills:
+        SkillService.create_skill(
+            db=db,
+            resume_id=resume.id,
+            skill_name=skill
+        )
 
     return resume
 
